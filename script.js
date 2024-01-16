@@ -114,19 +114,35 @@ let gameflow = {
 let displayController = {
   body: document.querySelector("body"),
   container: document.getElementById("grid-container"),
+  buttons: document.querySelectorAll(".grid-buttons"),
   grid: gameboard.grid,
   createDiv: document.createElement("div"),
   createButton: document.createElement("button"),
+  renderGame: function () {
+    this.createGrid();
+    this.clickCell();
+  },
   // Dynamically populates DOM with divs and buttons to form gameboard grid
   createGrid: function () {
     for (let i = 0; i < this.grid.length; i++) {
       for (let j = 0; j < this.grid[i].length; j++) {
-        this.container.appendChild(document.createElement("button")).id =
-          i + "-" + j;
+        this.container
+          .appendChild(document.createElement("button"))
+          .setAttribute("id", i + "-" + j);
       }
     }
+    this.container.querySelectorAll("button").forEach((button) => {
+      button.classList.add("grid-buttons");
+    });
+  },
+  clickCell: function () {
+    this.container.querySelectorAll("button").forEach((button) => {
+      button.addEventListener("click", () => {
+        button.textContent = gameflow.turn.marker;
+      });
+    });
   },
 };
 
-displayController.createGrid();
+displayController.renderGame();
 gameflow.playerTurn();
