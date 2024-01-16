@@ -21,53 +21,40 @@ let playerTwo = createPlayer("Player Two", "O", 2);
 
 let gameflow = {
   turn: playerOne,
-  isP1Win: false,
-  isP2Win: false,
-  p1Marker: playerOne.marker,
-  p2Marker: playerTwo.marker,
-  getTurn: function () {
-    if (this.turn === playerOne) {
-      console.log("It is " + playerOne.name + "'s turn");
-    } else {
-      console.log("It is " + playerTwo.name + "'s turn");
-    }
-  },
-  updateGrid: function (row, column, value) {
-    if (gameboard.grid[row][column] === 0) {
-      gameboard.grid[row][column] = value;
-    } else {
-      console.log("Sorry, that spot is taken, please try again");
-      this.playerTurn();
-    }
-  },
-  nextTurn: function () {
-    this.getTurn();
-    if (this.turn === playerOne) {
-      // Player One's Turn
-      this.p1Turn();
-    } else {
-      this.updateGrid(
-        prompt("Player Two's turn - Choose a row (0, 1 or 2)"),
-        prompt("Player Two's turn - Choose a column (0, 1 or 2)"),
-        playerTwo.value
-      );
-      gameflow.turn = playerOne;
-      console.log(gameboard.grid);
-      this.nextTurn();
-    }
-  },
+  count: 0,
   playerTurn: function () {
+    // Checks if all turns have been taken, and if so, closes the game.
+    if (gameflow.count >= 9) {
+      console.log("Game over!");
+      return;
+    }
+    // Feeds the current player's info and inputs into the updateGrid function.
     this.updateGrid(
       prompt(gameflow.turn.name + "'s turn - Choose a row (0, 1 or 2)"),
       prompt(gameflow.turn.name + "'s turn - Choose a column (0, 1 or 2)"),
       gameflow.turn.value
     );
+    // Determines which player should be going next.
     if (gameflow.turn === playerOne) {
       gameflow.turn = playerTwo;
     } else {
       gameflow.turn = playerOne;
     }
+    // Displays the current state of the game grid and then prompts the next player to take their turn.
     console.log(gameboard.grid);
     this.playerTurn();
   },
+  // Updates the grid array with new values
+  updateGrid: function (row, column, value) {
+    if (gameboard.grid[row][column] === 0) {
+      gameboard.grid[row][column] = value;
+      gameflow.count++;
+    } else {
+      // Logic that prevents players from taking up spots that are already taken. Will ask them to try again.
+      console.log("Sorry, that spot is taken, please try again");
+      this.playerTurn();
+    }
+  },
 };
+
+gameflow.playerTurn();
