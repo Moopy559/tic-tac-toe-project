@@ -8,15 +8,14 @@ let gameboard = {
   ],
 };
 
-const players = {
-  playerOneName: "",
-  playerTwoName: "",
-  playerOneMarker: "",
-  PlayerTwoMarker: "",
-};
-
 function createPlayer(name, marker) {
-  return { name, marker };
+  return {
+    name,
+    marker,
+  };
 }
+
+let playerOne = createPlayer("Player One", "X");
+let playerTwo = createPlayer("Player Two", "O");
 
 createPlayer("Sam", "X");
