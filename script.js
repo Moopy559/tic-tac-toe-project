@@ -18,4 +18,10 @@ function createPlayer(name, marker) {
 let playerOne = createPlayer("Player One", "X");
 let playerTwo = createPlayer("Player Two", "O");
 
-createPlayer("Sam", "X");
+let gameFlow = {
+  isP1Turn: true,
+  isP1Win: false,
+  isP2Win: false,
+  p1Marker: playerOne.marker,
+  p2Marker: playerTwo.marker,
+};
