@@ -37,7 +37,7 @@ let gameflow = {
       prompt(gameflow.turn.name + "'s turn - Choose a column (0, 1 or 2)"),
       gameflow.turn.value
     );
-    this.hozWinA();
+    this.checkWins();
     // Determines which player should be going next.
     if (gameflow.turn === playerOne) {
       gameflow.turn = playerTwo;
@@ -59,10 +59,32 @@ let gameflow = {
       this.playerTurn();
     }
   },
-  hozWinA: function () {
-    let check = gameboard.grid[0].every(
+  checkWins: function () {
+    this.hozWin(0);
+    this.hozWin(1);
+    this.hozWin(2);
+    this.vertWin(0);
+    this.vertWin(1);
+    this.vertWin(2);
+  },
+  hozWin: function (row) {
+    let check = gameboard.grid[row].every(
       (element) => element === gameflow.turn.value
     );
+    if (check) {
+      console.log(gameflow.turn.name + " wins!");
+      gameflow.gameWon = true;
+    }
+  },
+
+  vertWin: function (column) {
+    let col1 = gameboard.grid[0][column];
+    let col2 = gameboard.grid[1][column];
+    let col3 = gameboard.grid[2][column];
+    let colArray = [col1, col2, col3];
+
+    let check = colArray.every((element) => element === gameflow.turn.value);
+
     if (check) {
       console.log(gameflow.turn.name + " wins!");
       gameflow.gameWon = true;
