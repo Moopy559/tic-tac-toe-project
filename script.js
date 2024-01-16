@@ -19,6 +19,7 @@ function createPlayer(name, marker, value) {
 let playerOne = createPlayer("Player One", "X", 1);
 let playerTwo = createPlayer("Player Two", "O", 2);
 
+// MAIN GAME LOGIC
 let gameflow = {
   turn: playerOne,
   count: 0,
@@ -109,4 +110,25 @@ let gameflow = {
   },
 };
 
+// DISPLAY RENDERER
+let displayController = {
+  body: document.querySelector("body"),
+  container: document.getElementById("grid-container"),
+  grid: gameboard.grid,
+  createDiv: document.createElement("div"),
+  createButton: document.createElement("button"),
+  // Dynamically populates DOM with divs and buttons to form gameboard grid
+  createGrid: function () {
+    for (let i = 0; i < this.grid.length; i++) {
+      this.container.appendChild(document.createElement("div")).id = "row" + i;
+      for (let j = 0; j < this.grid[i].length; j++) {
+        this.container.children[i].appendChild(
+          document.createElement("button")
+        ).id = "col" + j;
+      }
+    }
+  },
+};
+
+displayController.createGrid();
 gameflow.playerTurn();
