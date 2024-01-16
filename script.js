@@ -59,6 +59,7 @@ let gameflow = {
       this.playerTurn();
     }
   },
+  // Checks against each possible win scenario and updates gameWon key accordingly.
   checkWins: function () {
     this.hozWin(0);
     this.hozWin(1);
@@ -66,6 +67,8 @@ let gameflow = {
     this.vertWin(0);
     this.vertWin(1);
     this.vertWin(2);
+    this.diagWin(0, 0, 2, 2);
+    this.diagWin(2, 0, 0, 2);
   },
   hozWin: function (row) {
     let check = gameboard.grid[row].every(
@@ -82,6 +85,20 @@ let gameflow = {
     let col2 = gameboard.grid[1][column];
     let col3 = gameboard.grid[2][column];
     let colArray = [col1, col2, col3];
+
+    let check = colArray.every((element) => element === gameflow.turn.value);
+
+    if (check) {
+      console.log(gameflow.turn.name + " wins!");
+      gameflow.gameWon = true;
+    }
+  },
+
+  diagWin: function (a, b, c, d) {
+    let pointA = gameboard.grid[a][b];
+    let pointB = gameboard.grid[1][1];
+    let pointC = gameboard.grid[c][d];
+    let colArray = [pointA, pointB, pointC];
 
     let check = colArray.every((element) => element === gameflow.turn.value);
 
