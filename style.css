@@ -1,3 +1,19 @@
 * {
   outline: solid 1px red;
 }
+
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.grid-container {
+  display: grid;
+  width: 500px;
+  height: 500px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+button {
+}

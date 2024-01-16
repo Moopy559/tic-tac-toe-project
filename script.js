@@ -120,11 +120,9 @@ let displayController = {
   // Dynamically populates DOM with divs and buttons to form gameboard grid
   createGrid: function () {
     for (let i = 0; i < this.grid.length; i++) {
-      this.container.appendChild(document.createElement("div")).id = "row" + i;
       for (let j = 0; j < this.grid[i].length; j++) {
-        this.container.children[i].appendChild(
-          document.createElement("button")
-        ).id = "col" + j;
+        this.container.appendChild(document.createElement("button")).id =
+          i + "-" + j;
       }
     }
   },
