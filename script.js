@@ -126,19 +126,23 @@ let displayController = {
   createGrid: function () {
     for (let i = 0; i < this.grid.length; i++) {
       for (let j = 0; j < this.grid[i].length; j++) {
-        this.container
-          .appendChild(document.createElement("button"))
-          .setAttribute("id", i + "-" + j);
+        const button = document.createElement("button");
+        button.setAttribute("id", i + "-" + j);
+        button.setAttribute("row", i);
+        button.setAttribute("column", j);
+        this.container.appendChild(button);
       }
     }
     this.container.querySelectorAll("button").forEach((button) => {
       button.classList.add("grid-buttons");
     });
   },
+  // Updates a clicked cell with the current player's marker
   clickCell: function () {
     this.container.querySelectorAll("button").forEach((button) => {
       button.addEventListener("click", () => {
         button.textContent = gameflow.turn.marker;
+        console.log(button.target);
       });
     });
   },
