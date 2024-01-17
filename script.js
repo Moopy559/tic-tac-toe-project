@@ -32,12 +32,7 @@ let gameflow = {
     } else if (gameflow.gameWon) {
       return;
     }
-    // Feeds the current player's info and inputs into the updateGrid function.
-    this.updateGrid(
-      prompt(gameflow.turn.name + "'s turn - Choose a row (0, 1 or 2)"),
-      prompt(gameflow.turn.name + "'s turn - Choose a column (0, 1 or 2)"),
-      gameflow.turn.value
-    );
+
     this.checkWins();
     // Determines which player should be going next.
     if (gameflow.turn === playerOne) {
@@ -47,18 +42,11 @@ let gameflow = {
     }
     // Displays the current state of the game grid and then prompts the next player to take their turn.
     console.log(gameboard.grid);
-    this.playerTurn();
   },
   // Updates the grid array with new values
   updateGrid: function (row, column, value) {
-    if (gameboard.grid[row][column] === 0) {
-      gameboard.grid[row][column] = value;
-      gameflow.count++;
-    } else {
-      // Logic that prevents players from taking up spots that are already taken. Will ask them to try again.
-      console.log("Sorry, that spot is taken, please try again");
-      this.playerTurn();
-    }
+    gameboard.grid[row][column] = value;
+    gameflow.count++;
   },
   // Checks against each possible win scenario and updates gameWon key accordingly.
   checkWins: function () {
@@ -108,6 +96,29 @@ let gameflow = {
       gameflow.gameWon = true;
     }
   },
+  playGame: function () {
+    displayController.container.querySelectorAll("button").forEach((button) => {
+      button.addEventListener("click", () => {
+        // Checks if the selected cell is available, and if so, updates cell content and respective grid array element.
+        if (
+          gameboard.grid[button.getAttribute("row")][
+            button.getAttribute("column")
+          ] === 0
+        ) {
+          displayController.clickCell(button);
+          gameflow.updateGrid(
+            button.getAttribute("row"),
+            button.getAttribute("column"),
+            gameflow.turn.value
+          );
+          gameflow.playerTurn();
+        } else {
+          // Informs user cell is taken and prompts them to try again
+          console.log("Sorry, that spot is taken, please try again");
+        }
+      });
+    });
+  },
 };
 
 // DISPLAY RENDERER
@@ -120,7 +131,6 @@ let displayController = {
   createButton: document.createElement("button"),
   renderGame: function () {
     this.createGrid();
-    this.clickCell();
   },
   // Dynamically populates DOM with divs and buttons to form gameboard grid
   createGrid: function () {
@@ -138,15 +148,11 @@ let displayController = {
     });
   },
   // Updates a clicked cell with the current player's marker
-  clickCell: function () {
-    this.container.querySelectorAll("button").forEach((button) => {
-      button.addEventListener("click", () => {
-        button.textContent = gameflow.turn.marker;
-        console.log(button.target);
-      });
-    });
+  clickCell: function (button) {
+    button.textContent = gameflow.turn.marker;
   },
 };
 
+// START GAME
 displayController.renderGame();
-gameflow.playerTurn();
+gameflow.playGame();
