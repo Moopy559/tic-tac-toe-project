@@ -16,8 +16,16 @@ function createPlayer(name, marker, value) {
   };
 }
 
-let playerOne = createPlayer("Player One", "X", 1);
-let playerTwo = createPlayer("Player Two", "O", 2);
+let playerOne = createPlayer(
+  prompt("Player One, please enter your name"),
+  "X",
+  1
+);
+let playerTwo = createPlayer(
+  prompt("Player Two, please enter your name"),
+  "O",
+  2
+);
 
 // MAIN GAME LOGIC
 let gameflow = {
@@ -99,11 +107,12 @@ let gameflow = {
   playGame: function () {
     displayController.container.querySelectorAll("button").forEach((button) => {
       button.addEventListener("click", () => {
-        // Checks if the selected cell is available, and if so, updates cell content and respective grid array element.
+        // Checks if the selected cell is available and if the game is still going, and if so, updates cell content and respective grid array element.
         if (
           gameboard.grid[button.getAttribute("row")][
             button.getAttribute("column")
-          ] === 0
+          ] === 0 &&
+          gameflow.gameWon === false
         ) {
           displayController.clickCell(button);
           gameflow.updateGrid(
