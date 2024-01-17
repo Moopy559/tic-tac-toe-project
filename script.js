@@ -132,6 +132,10 @@ let gameflow = {
       });
     });
   },
+  newPlayerNames: function () {
+    playerOne.name = prompt("Player One, please enter your name");
+    playerTwo.name = prompt("Player Two, please enter your name");
+  },
 };
 
 // DISPLAY RENDERER
@@ -169,3 +173,23 @@ let displayController = {
 // START GAME
 displayController.renderGame();
 gameflow.playGame();
+
+// RESET GAME
+function resetGame() {
+  while (displayController.container.firstChild) {
+    displayController.container.removeChild(
+      displayController.container.firstChild
+    );
+  }
+  gameflow.newPlayerNames();
+  gameflow.gameWon = false;
+  gameflow.count = 0;
+  gameflow.turn = playerOne;
+  gameboard.grid = [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0],
+  ];
+  displayController.renderGame();
+  gameflow.playGame();
+}
