@@ -36,6 +36,7 @@ let gameflow = {
     // Checks if all turns have been taken or if a player has won, and if so, closes the game.
     if (gameflow.count >= 9) {
       console.log("Game over!");
+      gameflow.gameWon = true;
       return;
     } else if (gameflow.gameWon) {
       return;
@@ -121,6 +122,9 @@ let gameflow = {
             gameflow.turn.value
           );
           gameflow.playerTurn();
+        } else if (gameflow.gameWon === true) {
+          // Stops using populating cells if the game is over
+          return;
         } else {
           // Informs user cell is taken and prompts them to try again
           console.log("Sorry, that spot is taken, please try again");
